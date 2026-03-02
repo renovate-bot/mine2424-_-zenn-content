@@ -32,14 +32,31 @@ Zennはこのリポジトリと連携しており、pushされると自動でdra
 
 ## ファイル命名規則
 
+### Zennのslug要件（必須）
+
+Zennはファイル名（拡張子を除く）をslugとして使用します。以下の条件を**すべて満たす**必要があります：
+
+- **文字数**: 12文字以上・50文字以下
+- **使用可能文字**: 半角英数字（a-z0-9）、ハイフン（-）、アンダースコア（_）のみ
+- 大文字・日本語・スペース・その他記号は使用不可
+
+### 自動生成ファイル名の形式
+
 ```
-articles/YYYYMMDD-HHMM-{軸}.md
+articles/YYYYMMDD-HHMM-{軸}-{suffix}.md
 
 例:
-articles/20260228-0900-ai.md
-articles/20260228-0900-qa.md
-articles/20260228-0900-nextjs.md
-articles/20260228-0900-flutter.md
+articles/20260302-0900-ai-tech.md       （20文字 ✅）
+articles/20260302-0900-qa-testing.md    （24文字 ✅）
+articles/20260302-0900-nextjs-tech.md   （25文字 ✅）
+articles/20260302-0900-flutter-dev.md   （25文字 ✅）
+```
+
+### NG例
+
+```
+articles/20260302-ai.md   ❌ 11文字（12文字未満）
+articles/20260302-qa.md   ❌ 11文字（12文字未満）
 ```
 
 ---
@@ -50,6 +67,14 @@ articles/20260228-0900-flutter.md
 - コードは最小限（1〜2ブロック程度）
 - 3000〜4000字の読み応えある説明文
 - すべてdraft（`published: false`）で生成
+
+## ⚠️ 自動公開は絶対にしない
+
+自動生成スクリプトは **`published: false`（draft）のみ** で動作します。
+
+- cronジョブは記事の**生成とGitHub pushのみ**を行う
+- 公開（`published: true`）への変更は**必ず手動**で行う
+- 記事の品質確認・編集後に、Ryotaが判断して公開する
 
 ---
 
